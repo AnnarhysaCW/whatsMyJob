@@ -60,6 +60,7 @@ const Home = () => {
   const [timeRemaining, setTimeRemaining] = useState(60);
   const [showAddDescription, setShowAddDescription] = useState(false);
   const [showConfirmReset, setShowConfirmReset] = useState(false);
+  const [showConfirmEnd, setShowConfirmEnd] = useState(false);
   // Add state for timer duration and editing
   const [timerDuration, setTimerDuration] = useState(60);
   const [editingTimer, setEditingTimer] = useState(false);
@@ -249,15 +250,13 @@ const Home = () => {
                 {jobs[currentQuestionIndex]?.title}
               </h2>
               <div className="flex gap-2">
-                {currentQuestionIndex === jobs.length - 1 && (
-                  <Button
-                    variant="secondary"
-                    className="flex items-center gap-2"
-                    onClick={() => setIsGameComplete(true)}
-                  >
-                    Show Leaderboard
-                  </Button>
-                )}
+                <Button
+                  className="flex items-center gap-2 bg-[#6c5ce7] text-white hover:bg-[#5a49d8]"
+                  style={{ minWidth: 80 }}
+                  onClick={() => setShowConfirmEnd(true)}
+                >
+                  End
+                </Button>
                 <Button
                   variant="destructive"
                   className="flex items-center gap-2"
@@ -310,6 +309,39 @@ const Home = () => {
                           setShowAddDescription(false);
                         }}
                       />
+                    </motion.div>
+                  </>
+                )}
+                {showConfirmEnd && (
+                  <>
+                    <motion.div
+                      className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-50"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      onClick={() => setShowConfirmEnd(false)}
+                    />
+                    <motion.div
+                      className="fixed left-1/2 top-1/2 z-50 bg-white rounded-lg shadow-2xl p-8 flex flex-col items-center"
+                      style={{ transform: 'translate(-50%, -50%)' }}
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.8, opacity: 0 }}
+                      transition={{ type: 'spring', duration: 0.25 }}
+                    >
+                      <h2 className="text-xl font-bold mb-4">Are you sure you want to end the game?</h2>
+                      <div className="flex gap-4 mt-4">
+                        <Button className="bg-[#6c5ce7] text-white hover:bg-[#5a49d8]" onClick={() => {
+                          setIsGameComplete(true);
+                          setShowConfirmEnd(false);
+                        }}>
+                          Yes, End Game
+                        </Button>
+                        <Button variant="outline" onClick={() => setShowConfirmEnd(false)}>
+                          Cancel
+                        </Button>
+                      </div>
                     </motion.div>
                   </>
                 )}
