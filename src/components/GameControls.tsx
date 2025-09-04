@@ -19,6 +19,7 @@ interface GameControlsProps {
   editingTimer: boolean;
   setEditingTimer: (editing: boolean) => void;
   handleTimerDurationChange: (newDuration: number) => void;
+  currentQuestionIndex: number;
 }
 
 const formatTime = (seconds: number): string => {
@@ -37,6 +38,7 @@ const GameControls = ({
   editingTimer,
   setEditingTimer,
   handleTimerDurationChange,
+  currentQuestionIndex,
 }: GameControlsProps) => {
   const [timeLeft, setTimeLeft] = useState<number>(timerDuration);
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -47,6 +49,12 @@ const GameControls = ({
     setTimeLeft(timerDuration);
     setInputValue(formatTime(timerDuration));
   }, [timerDuration]);
+
+  useEffect(() => {
+    setTimeLeft(timerDuration);
+    setInputValue(formatTime(timerDuration));
+    setIsRunning(false); // Stop timer after question change
+  }, [currentQuestionIndex, timerDuration]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;

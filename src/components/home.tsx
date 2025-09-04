@@ -87,8 +87,8 @@ const Home = () => {
   const handleNextQuestion = () => {
     if (currentQuestionIndex < jobs.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setTimeRemaining(timerDuration); // Always reset timer
       if (timerRunning) {
-        setTimeRemaining(timerDuration);
         setTimerRunning(true);
       }
     } else {
@@ -99,8 +99,8 @@ const Home = () => {
   const handlePreviousQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
+      setTimeRemaining(timerDuration); // Always reset timer
       if (timerRunning) {
-        setTimeRemaining(timerDuration);
         setTimerRunning(true);
       }
     }
@@ -222,6 +222,17 @@ const Home = () => {
               </h1>
               <p className="text-[#6c757d]">Describe your job as badly as you can to win the game!</p>
             </header>
+            {/* <div className="mb-4 flex justify-end">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  localStorage.removeItem('jobs');
+                  window.location.reload();
+                }}
+              >
+                Reset Jobs (Dev Only)
+              </Button>
+            </div> */}
             <GameControls
               currentQuestion={currentQuestionIndex + 1}
               totalQuestions={jobs.length}
@@ -231,6 +242,7 @@ const Home = () => {
               editingTimer={editingTimer}
               setEditingTimer={setEditingTimer}
               handleTimerDurationChange={handleTimerDurationChange}
+              currentQuestionIndex={currentQuestionIndex}
             />
             <div className="flex items-center justify-between mb-10 mt-6">
               <h2 className="text-4xl font-extrabold text-black">
