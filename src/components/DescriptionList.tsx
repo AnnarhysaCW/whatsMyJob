@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowUp, ArrowDown, Trash2 } from "lucide-react";
+import { ArrowUp, ArrowDown, Trash2, PlusCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Avatar } from "./ui/avatar";
@@ -60,11 +60,22 @@ const DescriptionList = ({
 
   return (
     <div
-      className="w-full space-y-4 bg-white p-4 rounded-lg cursor-pointer"
-      onClick={onAddDescription}
-      title={descriptions.length === 0 && onAddDescription ? 'Click to add description' : ''}
+      className={`w-full space-y-4 bg-white p-4 rounded-lg${descriptions.length === 0 ? ' cursor-pointer' : ''}`}
+      onClick={descriptions.length === 0 && onAddDescription ? onAddDescription : undefined}
     >
-      <h3 className="text-lg font-medium mb-4">Descriptions</h3>
+      <div className="flex items-center mb-4">
+        <h3 className="text-lg font-medium">Descriptions</h3>
+        {onAddDescription && (
+          <button
+            className="ml-2 rounded-full hover:bg-[#f3f0ff] p-1"
+            onClick={e => { e.stopPropagation(); onAddDescription(); }}
+            aria-label="Add description"
+            type="button"
+          >
+            <PlusCircle className="h-6 w-6 text-[#22c55e] hover:text-[#16a34a]" />
+          </button>
+        )}
+      </div>
 
       {sortedDescriptions.map((description) => (
         <motion.div
@@ -75,14 +86,19 @@ const DescriptionList = ({
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
         >
-          <Card className="p-4 relative hover:shadow-md transition-shadow cursor-default">
+          <Card
+            className="rounded-xl border bg-card text-card-foreground shadow p-4 relative hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => {
+              if (editingId !== description.id) startEdit(description);
+            }}
+          >
             <div className="flex items-start gap-4">
               <div className="flex flex-col items-center space-y-1">
                 <Button
                   variant="ghost"
                   size="sm"
                   className="rounded-full p-0 h-8 w-8"
-                  onClick={() => onUpvote(description.id)}
+                  onClick={e => { e.stopPropagation(); onUpvote(description.id); }}
                 >
                   <ArrowUp className="h-4 w-4" />
                 </Button>
@@ -91,12 +107,11 @@ const DescriptionList = ({
                   variant="ghost"
                   size="sm"
                   className="rounded-full p-0 h-8 w-8"
-                  onClick={() => onDownvote(description.id)}
+                  onClick={e => { e.stopPropagation(); onDownvote(description.id); }}
                 >
                   <ArrowDown className="h-4 w-4" />
                 </Button>
               </div>
-
               <div className="flex-1">
                 {editingId === description.id ? (
                   <div className="bg-gray-50 p-2 rounded border mb-2">
@@ -155,12 +170,11 @@ const DescriptionList = ({
                   </>
                 )}
               </div>
-
               <Button
                 variant="ghost"
                 size="sm"
                 className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full p-0 h-8 w-8"
-                onClick={() => onDelete(description.id)}
+                onClick={e => { e.stopPropagation(); onDelete(description.id); }}
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -168,7 +182,7 @@ const DescriptionList = ({
                 variant="ghost"
                 size="sm"
                 className="rounded-full p-0 h-8 w-8"
-                onClick={() => startEdit(description)}
+                onClick={e => { e.stopPropagation(); startEdit(description); }}
                 aria-label="Edit description"
               >
                 ✏️
@@ -180,9 +194,10 @@ const DescriptionList = ({
 
       {descriptions.length === 0 && (
         <div
-          className="text-center py-8 text-muted-foreground hover:text-[#6c5ce7] rounded transition-colors cursor-pointer"
+          className="text-center py-8 text-muted-foreground rounded transition-colors flex flex-col items-center justify-center"
         >
-          <p className="text-base italic">Click to add a description</p>
+          {/* <PlusCircle className="h-7 w-7 mb-2 text-[#22c55e]" /> */}
+          <p className="text-base italic">Click here or <PlusCircle className="h-5 w-5 inline" /> to add a description</p>
         </div>
       )}
     </div>

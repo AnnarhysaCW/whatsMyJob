@@ -265,14 +265,6 @@ const Home = () => {
                 >
                   Reset Page
                 </Button>
-                <Button
-                  variant="outline"
-                  className="flex items-center gap-2"
-                  onClick={() => setShowAddDescription(true)}
-                >
-                  <PlusCircle className="h-5 w-5" />
-                  Add Description
-                </Button>
               </div>
             </div>
             {ReactDOM.createPortal(
