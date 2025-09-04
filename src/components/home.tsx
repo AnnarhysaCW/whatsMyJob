@@ -192,6 +192,7 @@ const Home = () => {
 
   // Handle restarting the game
   const handleRestartGame = () => {
+    setJobs(initialJobs.map(job => ({ ...job, descriptions: [] })));
     setCurrentQuestionIndex(0);
     setIsGameComplete(false);
     setTimerRunning(false);
