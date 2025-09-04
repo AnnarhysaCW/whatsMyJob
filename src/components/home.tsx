@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Trophy } from "lucide-react";
 import GameBoard from "./GameBoard";
 import GameControls from "./GameControls";
 import ResultsBoard from "./ResultsBoard";
@@ -20,6 +20,8 @@ interface JobData {
     votes: number;
   }[];
 }
+
+const JOBS_VERSION = 4; // Increment this whenever you change initialJobs
 
 const Home = () => {
   // Mock data for job titles and descriptions
@@ -42,16 +44,24 @@ const Home = () => {
     { id: 16, title: "Social Media Manager", descriptions: [] },
     { id: 17, title: "Customer Success Manager", descriptions: [] },
     { id: 18, title: "Sales Executive", descriptions: [] },
-    { id: 19, title: "Technical Writer", descriptions: [] },
+    { id: 19, title: "Technical Lead", descriptions: [] },
     { id: 20, title: "HR Manager", descriptions: [] },
   ];
 
   const [jobs, setJobs] = useState<JobData[]>(() => {
     const saved = localStorage.getItem('jobs');
-    return saved ? JSON.parse(saved) : initialJobs;
+    const savedVersion = localStorage.getItem('jobs_version');
+    if (saved && savedVersion && parseInt(savedVersion) === JOBS_VERSION) {
+      return JSON.parse(saved);
+    }
+    // If no saved jobs or version mismatch, use initialJobs and update localStorage
+    localStorage.setItem('jobs', JSON.stringify(initialJobs));
+    localStorage.setItem('jobs_version', JOBS_VERSION.toString());
+    return initialJobs;
   });
   useEffect(() => {
     localStorage.setItem('jobs', JSON.stringify(jobs));
+    localStorage.setItem('jobs_version', JOBS_VERSION.toString());
   }, [jobs]);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -251,6 +261,15 @@ const Home = () => {
                 {jobs[currentQuestionIndex]?.title}
               </h2>
               <div className="flex gap-2">
+                {currentQuestionIndex === jobs.length - 1 && (
+                  <Button
+                    className="flex items-center gap-2 bg-gradient-to-r from-[#6c5ce7] to-[#00b894] text-white rounded-full shadow-lg px-6 py-2 text-lg font-semibold hover:from-[#5a49d8] hover:to-[#00b894] transition-all duration-200 border-0"
+                    onClick={() => setIsGameComplete(true)}
+                  >
+                    <Trophy className="h-5 w-5 mr-1 text-yellow-300" />
+                    Show Leaderboard
+                  </Button>
+                )}
                 <Button
                   className="flex items-center gap-2 bg-[#6c5ce7] text-white hover:bg-[#5a49d8]"
                   style={{ minWidth: 80 }}
