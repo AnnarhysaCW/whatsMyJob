@@ -428,6 +428,7 @@ const Home = () => {
                     } : job
                   ));
                 }}
+                onAddDescription={() => setShowAddDescription(true)}
               />
             </div>
           </>

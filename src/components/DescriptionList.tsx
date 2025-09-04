@@ -19,6 +19,7 @@ interface DescriptionListProps {
   onDownvote: (id: string) => void;
   onDelete: (id: string) => void;
   onEdit: (id: string, newText: string, newContributor: string) => void;
+  onAddDescription?: () => void;
 }
 
 const DescriptionList = ({
@@ -27,6 +28,7 @@ const DescriptionList = ({
   onDownvote = () => {},
   onDelete = () => {},
   onEdit = () => {},
+  onAddDescription = undefined,
 }: DescriptionListProps) => {
   const [editingId, setEditingId] = React.useState<string | null>(null);
   const [editText, setEditText] = React.useState("");
@@ -57,7 +59,11 @@ const DescriptionList = ({
   const sortedDescriptions = [...descriptions].sort((a, b) => a.rank - b.rank);
 
   return (
-    <div className="w-full space-y-4 bg-white p-4 rounded-lg">
+    <div
+      className="w-full space-y-4 bg-white p-4 rounded-lg cursor-pointer"
+      onClick={onAddDescription}
+      title={descriptions.length === 0 && onAddDescription ? 'Click to add description' : ''}
+    >
       <h3 className="text-lg font-medium mb-4">Descriptions</h3>
 
       {sortedDescriptions.map((description) => (
@@ -69,7 +75,7 @@ const DescriptionList = ({
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
         >
-          <Card className="p-4 relative hover:shadow-md transition-shadow">
+          <Card className="p-4 relative hover:shadow-md transition-shadow cursor-default">
             <div className="flex items-start gap-4">
               <div className="flex flex-col items-center space-y-1">
                 <Button
@@ -173,8 +179,10 @@ const DescriptionList = ({
       ))}
 
       {descriptions.length === 0 && (
-        <div className="text-center py-8 text-muted-foreground">
-          <p>No descriptions yet. Be the first to add one!</p>
+        <div
+          className="text-center py-8 text-muted-foreground hover:text-[#6c5ce7] rounded transition-colors cursor-pointer"
+        >
+          <p className="text-base italic">Click to add a description</p>
         </div>
       )}
     </div>
