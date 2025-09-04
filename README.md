@@ -1,30 +1,46 @@
-# React + TypeScript + Vite
+# WhatsMyJob (The Bad Edition)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fun web game where players try to guess or describe jobs as badly as possible! Each round presents a job title, and players can add, edit, and vote on the worst (or funniest) job descriptions. The game features a timer for each question, a leaderboard, and a modern, interactive UI.
 
-Currently, two official plugins are available:
+## Features
+- 20 unique, modern job titles
+- Add, edit, and vote on job descriptions
+- Timer for each question (editable, resets per question)
+- Leaderboard at the end
+- Built with React, TypeScript, Vite, TailwindCSS, and Radix UI
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Setup & Development
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+### 1. Clone the repository
+```bash
+git clone <your-repo-url>
+cd whatsMyJob
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### 2. Install dependencies
+```bash
+npm install
+```
+
+### 3. Start the development server
+```bash
+npm run dev
+```
+- The app will be available at `http://localhost:5173` (or as shown in your terminal).
+
+### 4. Build for production
+```bash
+npm run build
+```
+
+### 5. Preview the production build
+```bash
+npm run preview
+```
+
+## Customization
+- To change the job list, edit `src/components/home.tsx` (`initialJobs` array).
+- To reset local jobs data during development, use the "Reset Jobs (Dev Only)" button (remove before deploying to production).
+
+## License
+MIT (or your preferred license)

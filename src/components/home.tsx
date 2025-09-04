@@ -263,7 +263,7 @@ const Home = () => {
                   className="flex items-center gap-2"
                   onClick={() => setShowConfirmReset(true)}
                 >
-                  All Reset
+                  Reset Page
                 </Button>
                 <Button
                   variant="outline"
